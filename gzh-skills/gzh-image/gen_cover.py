@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-gzh-cover: 生成公众号封面图与正文插图。
-支持多供应商（封面用 gemini / nano banana 2，插图用 gpt-image-2），
+gzh-image: 公众号统一图像技能，生成封面 / 正文插图 / 带标注图解。
+支持多供应商（封面用 gemini / nano banana 2，插图与图解用 gpt-image-2），
 从 config.json 的 providers 读取；CLI 可覆盖 base_url/api_key/model/size。
+diagram 角色复用 illustration 供应商（gpt-image-2）。
 
 供应商类型 OpenAI 兼容：POST {base_url}/images/generations。
 """
@@ -27,7 +28,11 @@ def load_cfg():
         return json.load(f)
 
 
+ROLE_ALIAS = {"diagram": "illustration"}
+
+
 def build_provider(cfg, role, override_base, override_key, override_model):
+    role = ROLE_ALIAS.get(role, role)
     providers = cfg.get("providers", {})
     if role and role in providers:
         p = dict(providers[role])
@@ -133,7 +138,7 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--prompt-file", required=True, help="英文图像 prompt 文本文件")
     ap.add_argument("--out", required=True, help="输出图片路径")
-    ap.add_argument("--role", default=None, help="config.json providers 的键，如 cover / illustration")
+    ap.add_argument("--role", default=None, help="config.json providers 的键，如 cover / illustration / diagram")
     ap.add_argument("--base-url", default=None, help="覆盖 base_url")
     ap.add_argument("--api-key", default=None, help="覆盖 api_key")
     ap.add_argument("--model", default=None, help="覆盖 model，如 gpt-image-2 / gemini-3.1-flash-image")

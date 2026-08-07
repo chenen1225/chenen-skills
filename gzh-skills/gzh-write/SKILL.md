@@ -78,4 +78,4 @@ description: "【公众号运营技能 · 文章撰写 gzh-write】按「恩嗲 
 ## 与其他 gzh 技能衔接
 
 - 上游：gzh-topic（选题）→ 本技能（撰写）
-- 下游：gzh-illustration（图解）/ baoyu-image-gen（正文插图暖色黏土）/ gzh-cover（2.35:1 封面）/ gzh-html（转 HTML）/ gzh-draft（推草稿箱）
+- 下游：gzh-image（--role diagram 图解 / --role illustration 正文插图暖色黏土 / 2.35:1 封面）/ gzh-html（转 HTML）/ gzh-draft（推草稿箱）

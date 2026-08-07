@@ -45,4 +45,4 @@ description: "【公众号运营技能 · 选题 gzh-topic】为陈恩公众号�
 ## 与 gzh 技能衔接
 
 - 上游：用户素材 / 热点
-- 下游：gzh-write（按大纲撰写）→ gzh-illustration / gzh-cover / gzh-html / gzh-draft
+- 下游：gzh-write（按大纲撰写）→ gzh-image → gzh-html → gzh-draft

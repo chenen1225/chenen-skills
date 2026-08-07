@@ -72,9 +72,9 @@ function loadConfig(): WechatConfig {
     return { appId: process.env.WECHAT_APP_ID, appSecret: process.env.WECHAT_APP_SECRET };
   }
 
-  // 2) 统一的 gzh 凭证文件：兄弟技能 gzh-cover/config.json 的 wechat 段
-  //    gzh-cover 与 gzh-draft 同为 skills/ 下兄弟目录，config.json 由 gzh-skills 合集统一维护
-  const coverConfigPath = path.resolve(__dirname, "..", "..", "gzh-cover", "config.json");
+  // 2) 统一的 gzh 凭证文件：兄弟技能 gzh-image/config.json 的 wechat 段
+  //    gzh-image 与 gzh-draft 同为 skills/ 下兄弟目录，config.json 由 gzh-skills 合集统一维护
+  const coverConfigPath = path.resolve(__dirname, "..", "..", "gzh-image", "config.json");
   if (fs.existsSync(coverConfigPath)) {
     try {
       const cfg = JSON.parse(fs.readFileSync(coverConfigPath, "utf-8"));
@@ -97,7 +97,7 @@ function loadConfig(): WechatConfig {
   if (!appId || !appSecret) {
     throw new Error(
       "Missing WECHAT_APP_ID or WECHAT_APP_SECRET.\n" +
-      "Set via environment variables, or put them in gzh-cover/config.json (wechat section), or in .baoyu-skills/.env file."
+      "Set via environment variables, or put them in gzh-image/config.json (wechat section), or in .baoyu-skills/.env file."
     );
   }
 
