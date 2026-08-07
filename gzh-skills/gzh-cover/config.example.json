@@ -12,5 +12,9 @@
       "model": "gpt-image-2",
       "size": "16:9"
     }
+  },
+  "wechat": {
+    "app_id": "YOUR_WECHAT_APP_ID",
+    "app_secret": "YOUR_WECHAT_APP_SECRET"
   }
 }

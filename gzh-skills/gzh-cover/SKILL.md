@@ -15,7 +15,7 @@ author: 陈恩
 ## 触发场景
 - 用户说"给这篇生成封面 / 做张头图 / 封面用 XX 风格"
 - 用户提供封面需求：`标题文字需要嵌入画面，<风格>` + `主标题：<文章主标题>` + `画面含义：<摘要+情绪>`
-- 不触发：正文插图（gzh-illustration / baoyu-image-gen 职责，16:9，不进封面）
+- 不触发：正文插图（本技能 `--role illustration` 职责，16:9，不进封面）
 
 ## 输入格式（用户给或你代填）
 | 字段 | 说明 | 示例 |
@@ -45,8 +45,8 @@ author: 陈恩
 | role | 用途 | 模型 | size |
 |------|------|------|------|
 | `cover` | 公众号 2.35:1 头图 | gemini-3.1-flash-image | 21:9 |
-| `illustration` | 正文 16:9 插图 | gpt-image-2 | 16:9 |
-封面只用 `--role cover`；正文插图请用 baoyu-image-gen。
+| `illustration` | 正文 16:9 插图（暖色黏土） | gpt-image-2 | 16:9 |
+封面用 `--role cover`；**正文插图用 `--role illustration`**（同一份 config.json，gpt-image-2），不再单独依赖 baoyu-image-gen。
 
 ## Options（gen_cover.py）
 | 参数 | 说明 |
@@ -59,6 +59,8 @@ author: 陈恩
 
 ## 模型参数（config.json）
 首用需配 `providers.cover`：endpoint、api_key、model（默认 `gemini-3.1-flash-image`）、size（默认 `21:9`，实测 1584×672≈2.357:1 符合 2.35:1；**勿用像素尺寸如 2352x1000**，中继不支持会报错）。未配置脚本报错「api_key not set / provider 缺少 base_url」，停下向用户索取，不猜测。
+
+> gzh-skills 合集所有密钥统一收口在 **gzh-cover/config.json** 一份文件：`providers.cover`（封面）、`providers.illustration`（正文插图 gpt-image-2）、`wechat`（公众号 AppID/Secret，供 gzh-draft 读取）。只维护这一份即可。
 
 ## 错误处理
 - **缺 key/endpoint**：脚本报错退出并提示缺哪个 → 停下索取，不猜测。

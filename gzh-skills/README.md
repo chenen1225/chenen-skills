@@ -5,7 +5,7 @@
 ## 标准工作流（SOP）
 
 ```
-选题 gzh-topic → 撰写 gzh-write → 插图 gzh-illustration(+baoyu-image-gen 暖色黏土)
+选题 gzh-topic → 撰写 gzh-write → 插图 gzh-illustration + gzh-cover --role illustration(暖色黏土正文插图)
    → 封面 gzh-cover(2.35:1) → HTML gzh-html → 推送 gzh-draft(草稿箱)
 总指挥：gzh-ops（串起以上环节）
 ```
@@ -21,7 +21,7 @@
 | [gzh-cover](./gzh-cover) | 封面生成 | 生成公众号 2.35:1 头图（暖色黏土，标题嵌画面） |
 | [gzh-html](./gzh-html) | HTML 生成 | Markdown 转适配微信的带内联样式 HTML |
 | [gzh-draft](./gzh-draft) | 推送草稿箱 | 通过 API/CDP 把文章推送到公众号草稿箱 |
-| [baoyu-image-gen](./baoyu-image-gen) | 正文插图引擎 | 通用生图工具（暖色黏土正文插图），本流程固定搭档，未纳入 gzh- 命名 |
+| [baoyu-image-gen](./baoyu-image-gen) | 可选高级生图引擎 | 支持并发/参考图；默认正文插图已改走 gzh-cover --role illustration，不再强制依赖；未纳入 gzh- 命名 |
 
 ## 安装
 
@@ -38,10 +38,17 @@
 ~/.workbuddy/skills/baoyu-image-gen/
 ```
 
-## 配置注意
+## 配置注意（只需一份文件）
 
-- **gzh-cover** 需要密钥：复制 `gzh-cover/config.example.json` 为 `config.json` 并填入你的 `api_key`（见技能内说明）。`config.json` 已加入 `.gitignore`，不会误提交。
-- **gzh-draft** 需要微信公众号 API 凭证，放在用户级 `~/.baoyu-skills/.env`（`WECHAT_APP_ID` / `WECHAT_APP_SECRET`）。
+所有 gzh 凭证统一收口在 **`gzh-cover/config.json`** 这一个文件，复制 `gzh-cover/config.example.json` 为 `config.json` 填入即可：
+
+- `providers.cover`：封面 nano banana 2（`gemini-3.1-flash-image`）
+- `providers.illustration`：正文插图 gpt-image-2（16:9）
+- `wechat`：微信公众号 `app_id` / `app_secret`（供 gzh-draft 读取）
+
+`config.json` 已加入 `.gitignore`（`**/config.json`），真实密钥不会误提交。gzh-draft 优先读这份文件，也兼容环境变量与 `~/.baoyu-skills/.env` 兜底。
+
 - **gzh-html / gzh-illustration** 运行时需要 `bun` 或 `npx`，首次会按需拉取依赖。
+- **baoyu-image-gen** 为可选高级引擎（并发/参考图），默认流程不需要；若单独使用，仍按它的 `.env` 方式配置。
 
 > 公众号「我是陈恩」作者陈恩的 AI 运营实践沉淀。

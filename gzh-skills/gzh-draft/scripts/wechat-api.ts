@@ -67,11 +67,29 @@ function loadEnvFile(envPath: string): Record<string, string> {
 }
 
 function loadConfig(): WechatConfig {
-  const cwdEnvPath = path.join(process.cwd(), ".baoyu-skills", ".env");
-  const homeEnvPath = path.join(os.homedir(), ".baoyu-skills", ".env");
+  // 1) 环境变量最高优先
+  if (process.env.WECHAT_APP_ID && process.env.WECHAT_APP_SECRET) {
+    return { appId: process.env.WECHAT_APP_ID, appSecret: process.env.WECHAT_APP_SECRET };
+  }
 
-  const cwdEnv = loadEnvFile(cwdEnvPath);
-  const homeEnv = loadEnvFile(homeEnvPath);
+  // 2) 统一的 gzh 凭证文件：兄弟技能 gzh-cover/config.json 的 wechat 段
+  //    gzh-cover 与 gzh-draft 同为 skills/ 下兄弟目录，config.json 由 gzh-skills 合集统一维护
+  const coverConfigPath = path.resolve(__dirname, "..", "..", "gzh-cover", "config.json");
+  if (fs.existsSync(coverConfigPath)) {
+    try {
+      const cfg = JSON.parse(fs.readFileSync(coverConfigPath, "utf-8"));
+      const wx = cfg && cfg.wechat;
+      if (wx && wx.app_id && wx.app_secret) {
+        return { appId: wx.app_id, appSecret: wx.app_secret };
+      }
+    } catch {
+      // 解析失败则继续走 .env 兜底
+    }
+  }
+
+  // 3) .env 兜底（项目级 / 用户级 .baoyu-skills/.env）
+  const cwdEnv = loadEnvFile(path.join(process.cwd(), ".baoyu-skills", ".env"));
+  const homeEnv = loadEnvFile(path.join(os.homedir(), ".baoyu-skills", ".env"));
 
   const appId = process.env.WECHAT_APP_ID || cwdEnv.WECHAT_APP_ID || homeEnv.WECHAT_APP_ID;
   const appSecret = process.env.WECHAT_APP_SECRET || cwdEnv.WECHAT_APP_SECRET || homeEnv.WECHAT_APP_SECRET;
@@ -79,7 +97,7 @@ function loadConfig(): WechatConfig {
   if (!appId || !appSecret) {
     throw new Error(
       "Missing WECHAT_APP_ID or WECHAT_APP_SECRET.\n" +
-      "Set via environment variables or in .baoyu-skills/.env file."
+      "Set via environment variables, or put them in gzh-cover/config.json (wechat section), or in .baoyu-skills/.env file."
     );
   }
 
