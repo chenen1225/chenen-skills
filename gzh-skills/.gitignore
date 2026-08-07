@@ -1,0 +1,8 @@
+# 技能运行时密钥与依赖缓存，不纳入版本库
+**/config.json
+**/*.env
+**/node_modules/
+**/__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db

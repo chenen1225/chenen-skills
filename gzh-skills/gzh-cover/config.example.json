@@ -1,0 +1,16 @@
+{
+  "providers": {
+    "cover": {
+      "base_url": "https://<你的中继或官方>/v1",
+      "api_key": "YOUR_API_KEY",
+      "model": "gemini-3.1-flash-image",
+      "size": "21:9"
+    },
+    "illustration": {
+      "base_url": "https://<你的中继或官方>/v1",
+      "api_key": "YOUR_API_KEY",
+      "model": "gpt-image-2",
+      "size": "16:9"
+    }
+  }
+}
