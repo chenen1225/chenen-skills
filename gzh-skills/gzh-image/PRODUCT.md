@@ -1,4 +1,4 @@
-# Product — gzh-illustration
+# Product — gzh-image
 
 这份文档讲这个 Skill 为什么存在、面向谁、边界在哪里。实现事实看 `HANDOFF.md`。
 

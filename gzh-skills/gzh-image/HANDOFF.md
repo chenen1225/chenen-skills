@@ -1,17 +1,17 @@
-# Handoff — gzh-illustration
+# Handoff — gzh-image
 
 最后更新：2026-07-07 · 版本：v0.1
 
 这份文档只记录当前 Skill 的事实：文件结构、分工、验证方式、测试案例和已知坑。产品定位看 `PRODUCT.md`。
 
-远端仓库：`https://github.com/op7418/gzh-illustration.git`
+远端仓库（图解方法论上游来源）：`https://github.com/op7418/gzh-illustration.git`
 
 ---
 
 ## 1. 目录结构
 
 ```
-gzh-illustration/
+gzh-image/
 ├── SKILL.md                         # Skill 入口：何时调用、工作流、交付规则
 ├── HANDOFF.md                       # 本文件
 ├── PRODUCT.md                       # 产品文档
@@ -102,7 +102,7 @@ gzh-illustration/
 Skill 结构验证命令：
 
 ```bash
-python3 /Users/guohao/.codex/skills/.system/skill-creator/scripts/quick_validate.py /Users/guohao/Documents/code/HyperFrames-test/gzh-illustration
+python3 /Users/guohao/.codex/skills/.system/skill-creator/scripts/quick_validate.py /Users/guohao/Documents/code/HyperFrames-test/gzh-image
 ```
 
 期望输出：

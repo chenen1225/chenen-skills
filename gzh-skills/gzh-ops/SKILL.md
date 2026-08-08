@@ -36,4 +36,4 @@ description: "【公众号运营技能 · 总流程编排 gzh-ops】把公众号
 ## 与其他 gzh 技能关系
 
 - gzh-topic → gzh-write → gzh-image → gzh-html → gzh-draft
-- baoyu-image-gen 为可选的高级生图引擎（支持并发/参考图），默认正文插图已改走 gzh-image --role illustration，不再强制依赖。
+- 全部图像（封面/正文插图/带标注图解）统一由 gzh-image 承担，单一技能、单一 config.json。

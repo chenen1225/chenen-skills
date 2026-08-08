@@ -6,6 +6,3 @@
 *.pyc
 .DS_Store
 Thumbs.db
-
-# 已合并进 gzh-image 的旧图像技能（本地冗余副本，不发布）
-gzh-illustration/
