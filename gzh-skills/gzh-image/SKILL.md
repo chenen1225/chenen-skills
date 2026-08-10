@@ -21,7 +21,7 @@ author: 陈恩
 | role | 产物 | 模型 | size | 说明 |
 |------|------|------|------|------|
 | `cover` | 公众号 2.35:1 头图 | gemini-3.1-flash-image | 21:9 | 标题中文嵌画面，仅作头图 |
-| `illustration` | 正文 16:9 暖色黏土插图 | gpt-image-2 | 16:9 | 装饰性配图，不进封面 |
+| `illustration` | 正文 16:9 暖色黏土插图 | gpt-image-2 | 16:9 | 装饰性配图（**导语+每章各一张**），不进封面 |
 | `diagram` | 带标注图解（结构解释图） | gpt-image-2 | 16:9 | 复用 illustration 供应商；含中文标签 |
 
 > `diagram` 与 `illustration` 共用同一供应商（gpt-image-2 / 16:9），区别只在**提示词结构**：diagram 走下方"图解规划方法论"，产出带中文标签的 process/loop/system 结构图。
@@ -65,7 +65,7 @@ python3 "$SKILL_DIR/gen_cover.py" --prompt-file "<prompt>.txt" --out "<out>.jpg"
 4. 回传 `cover.jpg` 预览；微调改 prompt 重跑。
 
 ### 2) 正文插图（--role illustration）
-1. 从文章/章节提取需要配图的画面或抽象概念。
+1. **按「导读 + 每一章」各做一张**：先为导读配一张总览式暖色黏土插图，再为每章提取该章核心画面 / 概念各配一张。插入位置：导语插图在导读后、各章插图在对应章后。
 2. 写英文 prompt：暖色黏土风（暖白底 #F5F0E8 / 奶白黏土 #F0E8DC / 金黄 #FFD700 / 橙红 #FF6B35），柔和卡通科学家融入暖色场景；16:9。
 3. 调 `gen_cover.py --role illustration` → 落盘 PNG。
 
@@ -89,4 +89,4 @@ python3 "$SKILL_DIR/gen_cover.py" --prompt-file "<prompt>.txt" --out "<out>.jpg"
 - **格式校正**：按真实文件头（JPEG/PNG）校正扩展名，落盘格式与内容一致。
 
 ## 与发布流程衔接
-封面 2.35:1 仅作头图；正文插图 / 图解插到对应章后。生成后配合 gzh-draft 的 `--cover` 推草稿箱（见用户长期记忆「发布工作流习惯」）。
+封面 2.35:1 仅作头图；正文插图（含导读插图）/ 图解均插到对应位置（导读插图在导读后、各章插图 / 图解在章后）。生成后配合 gzh-draft 的 `--cover` 推草稿箱（见用户长期记忆「发布工作流习惯」）。
