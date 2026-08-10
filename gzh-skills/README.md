@@ -23,9 +23,35 @@
 | [gzh-html](./gzh-html) | HTML 生成 | Markdown 转适配微信的带内联样式 HTML |
 | [gzh-draft](./gzh-draft) | 推送草稿箱 | 通过 API/CDP 把文章推送到公众号草稿箱 |
 
-## 安装
+## 一键安装（推荐）
 
-把需要的技能文件夹整个复制到你的 Agent 平台 `skills/` 目录，例如 WorkBuddy：
+合集根目录提供了安装脚本，**一条命令把所有 `gzh-*` 技能装进你的 Agent 平台**，并自动从 `config.example.json` 生成 `config.json` 模板。脚本会自动覆盖同名旧技能，可反复运行用于升级。
+
+### Windows（PowerShell）
+
+```powershell
+# 在 gzh-skills 目录下执行（右键"用 PowerShell 运行"也可）：
+powershell -ExecutionPolicy Bypass -File install.ps1
+```
+
+### macOS / Linux / Windows Git Bash
+
+```bash
+bash install.sh
+```
+
+### 自定义目标目录（可选）
+
+```bash
+bash install.sh /path/to/your/skills        # bash
+powershell -ExecutionPolicy Bypass -File install.ps1 D:\skills   # PowerShell
+```
+
+默认目标：`~/.workbuddy/skills`（Windows 为 `%USERPROFILE%\.workbuddy\skills`）。
+
+## 手动安装（备选）
+
+如果你不想跑脚本，也可以把需要的技能文件夹整个复制到 Agent 平台的 `skills/` 目录，例如 WorkBuddy：
 
 ```
 ~/.workbuddy/skills/gzh-ops/

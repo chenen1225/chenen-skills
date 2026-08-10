@@ -15,6 +15,8 @@
 
 各合集内含若干技能，详见对应合集的 README。
 
+> 💡 `gzh-skills` 现提供**一键安装脚本**（`install.sh` / `install.ps1`），一条命令装完全部技能并生成配置模板，详见[合集 README](./gzh-skills/README.md#一键安装推荐)。
+
 ## 如何安装一个技能
 
 把对应技能文件夹复制到你的 Agent 平台的 `skills` 目录下即可，例如：
