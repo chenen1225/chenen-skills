@@ -1,15 +1,15 @@
 {
   "providers": {
     "cover": {
-      "base_url": "https://<你的中继或官方>/v1",
-      "api_key": "YOUR_API_KEY",
-      "model": "gemini-3.1-flash-image",
+      "base_url": "https://open.cherryin.net/v1",
+      "api_key": "YOUR_CHERRYIN_API_KEY",
+      "model": "google/gemini-3.1-flash-image-preview",
       "size": "21:9"
     },
     "illustration": {
-      "base_url": "https://<你的中继或官方>/v1",
-      "api_key": "YOUR_API_KEY",
-      "model": "gpt-image-2",
+      "base_url": "https://open.cherryin.net/v1",
+      "api_key": "YOUR_CHERRYIN_API_KEY",
+      "model": "openai/gpt-image-2",
       "size": "16:9"
     }
   },
