@@ -46,7 +46,7 @@ description: "【公众号运营技能 · 文章撰写 gzh-write】按「恩嗲 
 ```
 
 - 图注必须独立成段：`<p align="center">图N：……</p>`，不要只放 `![](...)` 的 alt（公众号不渲染 alt 为可见图注）。
-- 图片路径统一 `imgs/<主题>/`。
+- 图片路径统一 `imgs/<主题>/`，文件名按 gzh-image「落盘命名约定」（封面 `cover.jpg`、导语 `intro-illu.png`、各章 `chNN-illu.png` 或 `chNN-diag.png`，章号零填充两位）。
 
 ## 互动钩子模板（按文类选）
 

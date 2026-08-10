@@ -27,6 +27,7 @@ description: "【公众号运营技能 · 总流程编排 gzh-ops】把公众号
 - **HTML**：gzh-html 用 `--theme default`；外链要转底部引用加 `--cite`。
 - **推送**：gzh-draft 自动上传本地图到微信 CDN；**草稿箱只增不覆盖**，重推产生新版本，提醒用户删旧版。
 - **路径坑**：文章放**不含中文路径**的目录，否则 gzh-draft 的 `data-local-path` 中文绝对路径会导致破图。
+- **落盘命名**：图片统一落 `imgs/<主题>/`，文件名按 gzh-image「落盘命名约定」——封面 `cover.jpg`、导语 `intro-illu.png`、各章 `chNN-illu.png` 或 `chNN-diag.png`（章号零填充两位，后缀 `illu`=插图 / `diag`=图解），保证推送排序正确、人工可辨。
 
 ## 触发
 

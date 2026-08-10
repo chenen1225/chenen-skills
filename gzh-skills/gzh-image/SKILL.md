@@ -66,6 +66,27 @@ python3 "$SKILL_DIR/gen_cover.py" --prompt-file "<prompt>.txt" --out "<out>.jpg"
 | `--base-url`/`--api-key`/`--model` | 覆盖 provider 配置 |
 | `--size` | 覆盖画幅：`16:9`/`21:9` |
 
+## 落盘命名约定
+
+所有图片统一落盘到 `imgs/<主题>/`，文件名按「类型前缀 + 零填充章号 + 类型后缀」规则，保证目录可读、推送排序正确、人工定位快：
+
+| 文件 | 含义 |
+|------|------|
+| `cover.jpg` | 封面（2.35:1 头图，单独，不进正文） |
+| `intro-illu.png` | 导语插图（固定 1 张，在导读后） |
+| `ch01-diag-章节短名.png` | 第 1 章 · 图解 |
+| `ch02-illu-章节短名.png` | 第 2 章 · 插图 |
+| `chNN-illu.png` 或 `chNN-diag.png` | 第 NN 章（零填充两位）所选图 |
+
+规则：
+- **类型前缀**：`cover`（封面）/ `intro-illu`（导语插图）/ `chNN-illu` 或 `chNN-diag`（第 NN 章插图或图解）。
+- **章号零填充两位**（`01`/`02`/…/`10`），避免字母序把 `ch10` 排到 `ch2` 前、把封面误插正文。
+- **后缀**：`illu`=插图、`diag`=图解，一眼辨类型。
+- **`-描述`** 用章节短名（英文/拼音均可），便于人工辨认，可省略。
+- **格式**：封面 `cover.jpg`（nano banana 2 产出 JPG）；正文图 `*.png`（gpt-image-2 产出 PNG）。
+
+> 各工作流步骤的 `--out` 均按此命名；gzh-draft 推草稿箱时按文件名排序插入，命名稳定即顺序可控。
+
 ## 工作流
 
 ### 1) 封面（--role cover）
