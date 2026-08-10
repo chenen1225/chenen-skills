@@ -9,7 +9,7 @@ Use case: stylized-concept
 Asset type: [wide horizontal 1.9:1 / 16:9 / 1:1] labeled material illustration for [final use]
 Primary request: [plain English description of the concept and visual metaphor].
 Chinese labels: Add [3-5] short Simplified Chinese labels as clean printed callouts inside the illustration: "[label 1]", "[label 2]", "[label 3]", "[label 4]". Place each label near the matching object; keep labels horizontal, large, high-contrast, readable, and away from edges.
-Style/medium: clean Swiss editorial 3D vector-like illustration, off-white background, black ink lines, refined gray surfaces, one vivid [accent name] accent ([hex]).
+Style/medium: use the selected visual style's treatment from styles.md (default: warm clay — cream background, soft clay forms, no black outlines, one warm accent); keep the structure and Chinese labels described below.
 Composition/framing: [ratio] composition, subject fills the width naturally, centered vertically, generous safe margins on all sides, full subject visible, no crop, designed for [known image well if any].
 Lighting/mood: crisp studio light, calm analytical mood.
 Constraints: no extra words beyond the specified Chinese labels, no English labels, no numbers unless requested, no logo, no watermark, no poster frame, no page title, no decorative blobs, no gradient background.

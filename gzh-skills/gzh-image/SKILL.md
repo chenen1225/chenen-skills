@@ -1,6 +1,6 @@
 ---
 name: gzh-image
-description: "【公众号运营技能 · 统一图像 gzh-image】公众号图文所需的全部图像生成：2.35:1 封面（nano banana 2）、16:9 暖色黏土正文插图（gpt-image-2）、带标注图解（process/loop/system 结构图，复用 gpt-image-2）。三种产物共用一份 config.json。触发词：生成封面、做头图、配插图、带字插图、解释图、图解插画、概念拆解图、图表美化、process/loop/system diagrams。"
+description: "【公众号运营技能 · 统一图像 gzh-image】公众号图文所需的全部图像生成：2.35:1 封面（nano banana 2）、16:9 正文插图（默认暖色黏土，可选风格 gpt-image-2）、带标注图解（process/loop/system 结构图，复用 gpt-image-2）。三种产物共用一份 config.json。触发词：生成封面、做头图、配插图、带字插图、解释图、图解插画、概念拆解图、图表美化、process/loop/system diagrams。"
 version: 1.2
 author: 陈恩
 ---
@@ -12,7 +12,7 @@ author: 陈恩
 底层出图引擎：
 - 封面 / 正文插图 / 图解 均通过 `gen_cover.py` 调用 OpenAI 兼容图像接口（`POST {base_url}/images/generations`）。
 - 封面用 **nano banana 2 = gemini-3.1-flash-image**（稳定渲染中文标题，标题直接嵌画面）。
-- 正文插图、图解用 **gpt-image-2**（中文清晰，暖色黏土风稳出 PNG）。
+- 正文插图、图解用 **gpt-image-2**（中文清晰，按所选风格出图，默认暖色黏土）。
 
 ## 技能目录
 `SKILL_DIR` = 本 SKILL.md 所在目录，脚本 = `${SKILL_DIR}/gen_cover.py`，密钥 = `${SKILL_DIR}/config.json`。
@@ -21,10 +21,21 @@ author: 陈恩
 | role | 产物 | 模型 | size | 说明 |
 |------|------|------|------|------|
 | `cover` | 公众号 2.35:1 头图 | gemini-3.1-flash-image | 21:9 | 标题中文嵌画面，仅作头图 |
-| `illustration` | 正文 16:9 暖色黏土插图 | gpt-image-2 | 16:9 | 装饰性配图（**导语固定插图；正文每章插图/图解二选一**），不进封面 |
+| `illustration` | 正文 16:9 插图（风格可选） | gpt-image-2 | 16:9 | 装饰性配图（**导语固定插图；正文每章插图/图解二选一**），不进封面 |
 | `diagram` | 带标注图解（结构解释图） | gpt-image-2 | 16:9 | 复用 illustration 供应商；含中文标签；与插图**每章二选一** |
 
 > `diagram` 与 `illustration` 共用同一供应商（gpt-image-2 / 16:9），区别只在**提示词结构**：diagram 走下方"图解规划方法论"，产出带中文标签的 process/loop/system 结构图。**正文每章按性质在两者中二选一（不叠加）；导读固定用插图定调。**
+
+## 风格选择（可选，建议开启）
+
+`gzh-image` 不绑定单一视觉风格。**默认暖色黏土**；可按文章内容选其他风格，选定后**封面 / 插图 / 图解全部套同一风格的「英文片段」**，整篇视觉统一。风格库见 `references/styles.md`（暖色黏土 / 扁平极简 / 科技蓝紫 / 国风水墨 / 水彩手绘）。
+
+选择逻辑：
+1. 用户指定风格名 → 直接用对应预设。
+2. 用户未指定但内容明显适配某风格 → agent 读文章（主题 / 调性 / 受众），推 2–3 款最搭（各附一句理由），用 AskUserQuestion 让用户选，再出图。
+3. 用户完全没提 → 用默认「暖色黏土」，不阻断流程。
+
+写 prompt 时，把所选风格的「英文片段」嵌进 prompt 的 `Style/medium` 位置（替换原先写死的暖色黏土描述）；标签 / 构图结构仍按 `visual-style.md` + `prompt-patterns.md`。
 
 ## 模型参数（config.json）
 首用需配 `providers.cover` 与 `providers.illustration`（见 `config.example.json`）：
@@ -59,14 +70,14 @@ python3 "$SKILL_DIR/gen_cover.py" --prompt-file "<prompt>.txt" --out "<out>.jpg"
 
 ### 1) 封面（--role cover）
 1. 拿到 风格/主标题/画面含义，缺哪个就问用户；只说"配个封面"时从当前草稿取标题和摘要自动填。
-2. **视觉转译（核心）**：把「画面含义」翻成英文视觉描述，按 4 要素——主体 / 背景 / 艺术风格（默认暖色黏土风）/ 光影。
+2. **视觉转译（核心）**：把「画面含义」翻成英文视觉描述，按 4 要素——主体 / 背景 / 艺术风格（默认暖色黏土，见 styles.md 可选）/ 光影。
    - 硬性规定：**21:9 超宽横幅（实测 1584×672≈2.357:1）**、**主标题中文清晰嵌画面顶部/居中**、**不出现无关文字**。
 3. 写英文 prompt 到文件 → 调 `gen_cover.py --role cover`。
 4. 回传 `cover.jpg` 预览；微调改 prompt 重跑。
 
 ### 2) 正文插图（--role illustration）
-1. **按章二选一**：导读固定配一张总览式暖色黏土插图定调；正文每一章按性质二选一——概念 / 故事 / 观点类用插图（暖色黏土装饰），流程 / 步骤 / 对比 / 机制类用图解（带中文标签结构图）。**每章只出一张，不叠加**。插入位置：导语插图在导读后、各章所选图在对应章后。
-2. 写英文 prompt：暖色黏土风（暖白底 #F5F0E8 / 奶白黏土 #F0E8DC / 金黄 #FFD700 / 橙红 #FF6B35），柔和卡通科学家融入暖色场景；16:9。
+1. **按章二选一**：导读固定配一张总览式插图定调（用所选风格；默认暖色黏土）；正文每一章按性质二选一——概念 / 故事 / 观点类用插图（装饰性配图），流程 / 步骤 / 对比 / 机制类用图解（带中文标签结构图）。**每章只出一张，不叠加**。插入位置：导语插图在导读后、各章所选图在对应章后。
+2. 写英文 prompt：按 `styles.md` 中选定风格的「英文片段」描述视觉（**未选风格时默认暖色黏土**：暖白底 #F5F0E8 / 奶白黏土 #F0E8DC / 金黄 #FFD700 / 橙红 #FF6B35，柔和卡通科学家融入暖色场景）；16:9。
 3. 调 `gen_cover.py --role illustration` → 落盘 PNG。
 
 ### 3) 带标注图解（--role diagram）
@@ -76,11 +87,11 @@ python3 "$SKILL_DIR/gen_cover.py" --prompt-file "<prompt>.txt" --out "<out>.jpg"
    - **Cycle** 循环/反馈/迭代 · **Pipeline** 有序步骤/工作流 · **Hub-and-spoke** 中心协调多分支
    - **Before/after** 状态变化/对比 · **Layer stack** 架构/层级/依赖 · **Data-first** 图表嵌入场景 · **Scientific** 对象/部件/机制
 3. 把每个概念压成一句大白话解释 + 3-5 个可见标签（标签 2-5 字最佳，最多 6 字；用具体词如 `用户提示`/`AI 执行`/`结果检查`，不用 `输入阶段`这类抽象词）。
-4. 写英文 prompt：描述精确标签文字、画幅、安全边距、共享暖色黏土视觉风格（覆盖 references/visual-style.md 原 guizang 3D Swiss 风格）。
+4. 写英文 prompt：描述精确标签文字、画幅、安全边距，并套用所选风格的视觉片段（见 `styles.md`；未选则默认暖色黏土）。标签 / 构图方法论见 `visual-style.md`，不再绑定固定色板。
 5. 调 `gen_cover.py --role diagram`。
 6. 逐图检查：中文标签清晰、位置指对、无多余英文/水印；不对则加约束重生成。
 
-> 图解规划的方法论文档在 `references/`：`visual-style.md`（视觉系统）、`prompt-patterns.md`（结构提示词模板）、`chart-beautify.md`（图表美化）、`qa-checklist.md`（交付前核对）、`reference-gathering.md`（陌生概念查证）、`use-cases-and-routing.md`（按输入选图类型）。本合集**默认暖色黏土风**，references 仅作提示词结构与标签方法论参考。
+> 图解规划的方法论文档在 `references/`：`visual-style.md`（标签 / 构图方法论，不绑色板）、`prompt-patterns.md`（结构提示词模板）、`chart-beautify.md`（图表美化）、`qa-checklist.md`（交付前核对）、`reference-gathering.md`（陌生概念查证）、`use-cases-and-routing.md`（按输入图类型）。风格色板见 `styles.md`，默认暖色黏土。
 
 ## 错误处理
 - **缺 key/endpoint**：脚本报错退出并提示缺哪个 → 停下索取，不猜测。
@@ -89,4 +100,4 @@ python3 "$SKILL_DIR/gen_cover.py" --prompt-file "<prompt>.txt" --out "<out>.jpg"
 - **格式校正**：按真实文件头（JPEG/PNG）校正扩展名，落盘格式与内容一致。
 
 ## 与发布流程衔接
-封面 2.35:1 仅作头图；正文每章按性质二选一配插图或图解（导语固定插图），均插到对应位置（导语插图在导读后、各章所选图在章后）。生成后配合 gzh-draft 的 `--cover` 推草稿箱（见用户长期记忆「发布工作流习惯」）。
+封面 2.35:1 仅作头图（用所选风格；默认暖色黏土）；正文每章按性质二选一配插图或图解（导语固定插图，均用所选风格），均插到对应位置。生成后配合 gzh-draft 的 `--cover` 推草稿箱。

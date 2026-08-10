@@ -2,16 +2,9 @@
 
 Use this reference when generating Guizang-style labeled material illustrations.
 
-## Default Look
+## Visual System（风格色板来自所选风格）
 
-Use a clean Swiss editorial 3D illustration style:
-
-- Off-white studio background.
-- Black ink outlines and subtle gray physical surfaces.
-- One vivid accent color used for arrows, dots, active blocks, and label connectors.
-- Soft studio light, mild contact shadows, no dramatic gradients.
-- Diagram objects should feel like small physical models, not flat app UI.
-- The image should work as the central illustration inside a social card, slide, or article graphic.
+本文件只规定**标签与构图方法论**，不绑定固定色板。具体视觉质感（色板 / 纹理 / 光影）由 `styles.md` 中用户选定的风格提供；未选风格时默认暖色黏土。以下为任意风格都要遵守的通用约束：
 
 Do not use:
 

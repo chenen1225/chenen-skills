@@ -9,7 +9,7 @@ Run this before delivering final images.
 - The whole subject fits; no important text, label, icon, object, or axis is cropped.
 - Text is readable at intended display size.
 - No accidental logos, watermarks, extra English, or misspelled Chinese.
-- The style is consistent with the Guizang material / Swiss editorial visual system.
+- The visual style is consistent with the selected preset in styles.md (default warm clay), and applied uniformly across cover / illustration / diagram.
 - Negative constraints in the prompt protect the main risk: wrong data, clutter, wrong tone, unsupported facts, or cropped labels.
 
 ## Labels And Explainers
