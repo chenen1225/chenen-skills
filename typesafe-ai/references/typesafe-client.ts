@@ -8,9 +8,18 @@
  *   - rotation on 401 Unauthorized (bad key is marked dead, next key is tried)
  *   - exponential backoff on 429 Too Many Requests / 529 Overloaded
  *   - zero key storage: keys live in your env / .env, never in this file
+ *   - best-effort .env auto-load: if the consuming project has `dotenv`
+ *     installed, this file loads `.env` from the project cwd automatically,
+ *     so you can just drop TYPESAFE_API_KEYS into `.env` with no manual loader
  *
- * Requires Node 20+ (global fetch). Adjust to your stack as needed.
+ * Requires Node 20+ (global fetch) and, for .env support, `dotenv`
+ * (`npm i dotenv`) in the consuming project. Adjust to your stack as needed.
  */
+
+// Best-effort: load `.env` from the consuming project's cwd so that
+// TYPESAFE_API_KEYS / TYPESAFE_API_KEY work without a manual loader.
+// No-op (and no error) if `dotenv` isn't installed — real env vars still work.
+import("dotenv/config").catch(() => {});
 
 export interface TypeSafeAnswer {
   type: "noul" | "choice" | "score";
