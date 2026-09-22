@@ -10,6 +10,7 @@
 
 | 合集 | 主题 | 说明 |
 |------|------|------|
+| [agnes-skills](./agnes-skills) | 多模态生成 | Agnes AI 生图 / 生视频技能合集：文生图、图生图、文生视频、图生视频、关键帧（agnes-image-2.1/2.5-flash、agnes-video-v2.0/2.5-flash） |
 | [hum-socratic](./hum-socratic) | 自我探索 | 人本主义苏格拉底对话引擎，跨平台通用 |
 | [typesafe-ai](./typesafe-ai) | AI 编程原语 | TypeSafe System One 模型：用结构化判断（Choice/Noul/Score）替代脆弱的 prompt-and-parse；含多 key 轮换参考实现 |
 | [gzh-skills](./gzh-skills) | 公众号运营 | 选题 → 撰写 → 图像(gzh-image 统一封面/插图/图解) → HTML → 推送草稿箱 全流程标准技能 |
