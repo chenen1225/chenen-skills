@@ -165,3 +165,22 @@ drop-in HTTP client for `POST https://api.typesafe.ai/v1/systemone` that:
 
 The TypeSafe SDKs read a single `TYPESAFE_API_KEY` only and have no built-in rotation,
 so the reference client uses the raw HTTP API. Adjust to your stack as needed.
+
+### Setting up API keys (`.env`)
+
+Keys are never stored by the skill — they come from environment variables. A
+`.env.example` template is included; copy it to `.env` in **the project that calls
+the client** (not this skill directory) and fill in:
+
+```dotenv
+# single key
+TYPESAFE_API_KEY=ts_live_xxxxxxxxxxxxxxxx
+# or multiple keys for rotation (comma-separated)
+TYPESAFE_API_KEYS=ts_live_key1,ts_live_key2,ts_live_key3
+```
+
+`references/typesafe-client.ts` auto-loads `.env` from the project cwd via
+`import("dotenv/config").catch(() => {})` — install `dotenv` in the consuming
+project (`npm i dotenv`) and it just works, no manual loader. Real environment
+variables still work if `dotenv` isn't installed. Keep `.env` in `.gitignore` and
+never commit it. See [README.md](./README.md) for the full setup guide.
