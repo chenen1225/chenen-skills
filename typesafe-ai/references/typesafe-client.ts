@@ -122,10 +122,16 @@ export class TypeSafeRotatingClient {
   }
 }
 
-/** Convenience: one-off call without holding a client instance. */
+/** Shared singleton so consecutive askTypeSafe() calls keep rotating the pool. */
+let sharedClient: TypeSafeRotatingClient | null = null;
+
+/** Convenience: one-off call without holding a client instance.
+ *  Uses a module-level singleton — the key cursor persists across calls,
+ *  so repeated invocations genuinely round-robin through the key pool. */
 export async function askTypeSafe(
   state: unknown,
   questions: Record<string, unknown>
 ): Promise<TypeSafeResponse> {
-  return new TypeSafeRotatingClient().systemOne(state, questions);
+  if (!sharedClient) sharedClient = new TypeSafeRotatingClient();
+  return sharedClient.systemOne(state, questions);
 }
